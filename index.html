@@ -58,15 +58,6 @@
 </div>
 
 <div class="panel panel-warning">
-  <div class="panel-heading">git checkout and commit bit</div>
-  <div class="panel-body">
-<p>You will need a working git installation, checkout of the perl git repository and perl commit bit. For information about working with perl and git, see <a href="https://metacpan.org/pod/perlgit">pod/perlgit.pod</a>.</p>
-<p>If you are not yet a perl committer, you won't be able to make a release. Have a chat with whichever evil perl porter tried to talk you into the idea in the first place to figure out the best way to resolve the issue.</p>
-  </div>
- <div class="panel-footer warning"><span class="warning"><span class="glyphicon glyphicon-remove"></span> public SSH key sent to Sawyer</span></div>
-</div>
-
-<div class="panel panel-warning">
   <div class="panel-heading">Quotation for release announcement epigraph</div>
   <div class="panel-body">
 <p>You will need a quotation to use as an epigraph to your release announcement.</p>
@@ -74,126 +65,23 @@
  <div class="panel-footer warning"><span class="warning"><span class="glyphicon glyphicon-ok"></span> I have one, will be published on this website soon.</span></div>
 </div>
 
-<div class="panel panel-danger">
-  <div class="panel-heading">dual-life CPAN module synchronisation</div>
+<div class="panel panel-warning">
+  <div class="panel-heading">update perldelta</div>
   <div class="panel-body">
 
 
-<p>To see which core distro versions differ from the current CPAN versions:</p>
+<p>Get perldelta in a mostly finished state.</p>
 
-<pre>    $ ./perl -Ilib Porting/core-cpan-diff -x -a</pre>
+<p>Read <em>Porting/how_to_write_a_perldelta.pod</em>, and try to make sure that every section it lists is, if necessary, populated and complete. Copy edit the whole document.</p>
 
-<p>However, this only checks whether the version recorded in <em>Porting/Maintainers.pl</em> differs from the latest on CPAN. It doesn&#39;t tell you if the code itself has diverged from CPAN.</p>
-
-<p>You can also run an actual diff of the contents of the modules, comparing core to CPAN, to ensure that there were no erroneous/extraneous changes that need to be dealt with. You do this by not passing the <code>-x</code> option:</p>
-
-<pre>    $ ./perl -Ilib Porting/core-cpan-diff -a -o /tmp/corediffs</pre>
-
-<p>Passing <code>-u cpan</code> will probably be helpful, since it limits the search to distributions with &#39;cpan&#39; upstream source. (It&#39;s OK for blead upstream to differ from CPAN because those dual-life releases usually come <i>after</i> perl is released.)</p>
-
-<p>See also the <code>-d</code> and <code>-v</code> options for more detail (and the <code>-u</code> option as mentioned above). You&#39;ll probably want to use the <code>-c cachedir</code> option to avoid repeated CPAN downloads and may want to use <code>-m file:///mirror/path</code> if you made a local CPAN mirror. Note that a minicpan mirror won&#39;t actually work, but can provide a good first pass to quickly get a list of modules which definitely haven&#39;t changed, to avoid having to download absolutely everything.</p>
-
-<p>For a BLEAD-POINT or BLEAD-FINAL release with &#39;cpan&#39; upstream, if a CPAN release appears to be ahead of blead, then consider updating it (or asking the relevant porter to do so). (However, if this is a BLEAD-FINAL release or one of the last BLEAD-POINT releases before it and hence blead is in some kind of &#34;code freeze&#34; state (e.g. the sequence might be &#34;contentious changes freeze&#34;, then &#34;user-visible changes freeze&#34; and finally &#34;full code freeze&#34;) then any CPAN module updates must be subject to the same restrictions, so it may not be possible to update all modules until after the BLEAD-FINAL release.) If blead contains edits to a &#39;cpan&#39; upstream module, this is naughty but sometimes unavoidable to keep blead tests passing. Make sure the affected file has a CUSTOMIZED entry in <em>Porting/Maintainers.pl</em>.</p>
-
-<p>If you are making a MAINT release, run <code>core-cpan-diff</code> on both blead and maint, then diff the two outputs. Compare this with what you expect, and if necessary, fix things up. For example, you might think that both blead and maint are synchronised with a particular CPAN module, but one might have some extra changes.</p>
+<p>You won&#39;t be able to automatically fill in the &#34;Updated Modules&#34; section until after Module::CoreList is updated (as described below in <a href="#update_Module%3A%3ACoreList" class="podlinkpod"
+>&#34;update Module::CoreList&#34;</a>).</p>
 
 
   </div>
- <div class="panel-footer"><span class="glyphicon glyphicon-remove"></span> Not done, yet.</span></div>
+ <div class="panel-footer"><span class="glyphicon glyphicon-remove"></span> prepared perldelta, waiting for last changes .</span></div>
 </div>
 
-<div class="panel panel-danger">
-  <div class="panel-heading">How to sync a CPAN module with a cpan/ distro</div>
-  <div class="panel-body">
-
-
-<p>In most cases, once a new version of a distribution shipped with core has been uploaded to CPAN, the core version thereof can be synchronized automatically with the program <em>Porting/sync-with-cpan</em>. (But see the comments at the beginning of that program. In particular, it has not yet been exercised on Windows as much as it has on Unix-like platforms.)</p>
-
-<p>If, however, <em>Porting/sync-with-cpan</em> does not provide good results, follow the steps below.</p>
-<ul>
-<li>Fetch the most recent version from CPAN.</li>
-
-<li>Unpack the retrieved tarball. Rename the old directory; rename the new directory to the original name.</li>
-
-<li>Restore any <em>.gitignore</em> file. This can be done by issuing <code>git checkout .gitignore</code> in the <em>cpan/Distro</em> directory.</li>
-
-<li>Remove files we do not need. That is, remove any files that match the entries in <code>@IGNORABLE</code> in <em>Porting/Maintainers.pl</em>, and anything that matches the <code>EXCLUDED</code> section of the distro&#39;s entry in the <code>%Modules</code> hash.</li>
-
-<li>Restore any files mentioned in the <code>CUSTOMIZED</code> section, using <code>git checkout</code>. Make any new customizations if necessary. Also, restore any files that are mentioned in <code>@IGNORE</code>, but were checked into the repository anyway.</li>
-
-<li>For any new files in the distro, determine whether they are needed. If not, delete them, and list them in either <code>EXCLUDED</code> or <code>@IGNORABLE</code>. Otherwise, add them to <code>MANIFEST</code>, and run <code>git add</code> to add the files to the repository.</li>
-
-<li>For any files that are gone, remove them from <code>MANIFEST</code>, and use <code>git rm</code> to tell git the files will be gone.</li>
-
-<li>If the <code>MANIFEST</code> file was changed in any of the previous steps, run <code>perl Porting/manisort --output MANIFEST.sort; mv MANIFEST.sort MANIFEST</code>.</li>
-
-<li>For any files that have an execute bit set, either remove the execute bit, or edit <em>Porting/exec-bit.txt</em></li>
-
-<li>Run <code>make</code> (or <code>nmake</code> on Windows), see if <code>perl</code> compiles.</li>
-
-<li>Run the tests for the package.</li>
-
-<li>Run the tests in <em>t/porting</em> (<code>make test_porting</code>).</li>
-
-<li>Update the <code>DISTRIBUTION</code> entry in <em>Porting/Maintainers.pl</em>.</li>
-
-<li>Run a full configure/build/test cycle.</li>
-
-<li>If everything is ok, commit the changes.</li>
-</ul>
-
-<p>For entries with a non-simple <code>FILES</code> section, or with a <code>MAP</code>, you may have to take more steps than listed above.</p>
-
-
-  </div>
- <div class="panel-footer"><span class="glyphicon glyphicon-remove"></span> Not done, yet.</span></div>
-</div>
-
-<div class="panel panel-danger">
-  <div class="panel-heading">dual-life CPAN module stability</div>
-  <div class="panel-body">
-<p>Ensure dual-life CPAN modules are stable, which comes down to:</p>
-
-<pre>   for each module that fails its regression tests on $current
-       did it fail identically on $previous?
-       if yes, &#34;SEP&#34; (Somebody Else&#39;s Problem)
-       else work out why it failed (a bisect is useful for this)
-
-   attempt to group failure causes
-
-   for each failure cause
-       is that a regression?
-       if yes, figure out how to fix it
-           (more code? revert the code that broke it)
-       else
-           (presumably) it&#39;s relying on something un-or-under-documented
-           should the existing behaviour stay?
-               yes - goto &#34;regression&#34;
-               no - note it in perldelta as a significant bugfix
-               (also, try to inform the module&#39;s author)</pre>
-
-
-  </div>
- <div class="panel-footer"><span class="glyphicon glyphicon-remove"></span> Not done, yet.</span></div>
-</div>
-
-<div class="panel panel-danger">
-  <div class="panel-heading">monitor smoke tests for failures</div>
-  <div class="panel-body">
-
-
-<p>Similarly, monitor the smoking of core tests, and try to fix. See <a href="http://smoke.procura.nl/index.html" class="podlinkurl"
->http://smoke.procura.nl/index.html</a>, <a href="http://perl5.test-smoke.org/" class="podlinkurl"
->http://perl5.test-smoke.org/</a> and <a href="http://perl.develop-help.com" class="podlinkurl"
->http://perl.develop-help.com</a> for a summary. See also <a href="http://www.nntp.perl.org/group/perl.daily-build.reports/" class="podlinkurl"
->http://www.nntp.perl.org/group/perl.daily-build.reports/</a> which has the raw reports.</p>
-
-<p>Similarly, monitor the smoking of perl for compiler warnings, and try to fix.</p>
-
-
-  </div>
- <div class="panel-footer"><span class="glyphicon glyphicon-remove"></span> Not done, yet.</span></div>
-</div>
 
 
 
