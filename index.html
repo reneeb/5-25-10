@@ -82,6 +82,51 @@
  <div class="panel-footer"><span class="glyphicon glyphicon-remove"></span> prepared perldelta, waiting for last changes .</span></div>
 </div>
 
+<div class="panel panel-danger">
+  <div class="panel-heading">Check more build configurations</div>
+  <div class="panel-body">
+
+
+<p>Try running the full test suite against multiple Perl configurations. Here are some sets of Configure flags you can try:</p>
+
+<ul>
+<li><code>-Duseshrplib -Dusesitecustomize</code></li>
+
+<li><code>-Duserelocatableinc</code></li>
+
+<li><code>-Dusethreads</code></li>
+</ul>
+
+<p>If you have multiple compilers on your machine, you might also consider compiling with <code>-Dcc=$other_compiler</code>.</p>
+
+
+  </div>
+ <div class="panel-footer"><span class="glyphicon glyphicon-remove"></span> Not done, yet.</span></div>
+</div>
+
+<div class="panel panel-danger">
+  <div class="panel-heading">update perlport</div>
+  <div class="panel-body">
+
+
+<p><a href="http://search.cpan.org/perldoc?perlport" class="podlinkpod"
+>perlport</a> has a section currently named <i>Supported Platforms</i> that indicates which platforms are known to build in the current release. If necessary update the list and the indicated version number.</p>
+
+
+  </div>
+ <div class="panel-footer"><span class="glyphicon glyphicon-remove"></span> Not done, yet.</span></div>
+</div>
+
+<div class="panel panel-danger">
+  <div class="panel-heading">check a readonly build</div>
+  <div class="panel-body">
+<p>Even before other prep work, follow the steps in <a href="#build_the_tarball" class="podlinkpod"
+>&#34;build the tarball&#34;</a> and test it locally. Because a perl source tarballs sets many files read-only, it could test differently than tests run from the repository. After you&#39;re sure permissions aren&#39;t a problem, delete the generated directory and tarballs.</p>
+
+
+  </div>
+ <div class="panel-footer"><span class="glyphicon glyphicon-remove"></span> Not done, yet.</span></div>
+</div>
 
 
 
