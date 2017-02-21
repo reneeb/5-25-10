@@ -78,6 +78,68 @@
  <div class="panel-footer warning"><span class="warning"><span class="glyphicon glyphicon-ok"></span> I have one, will be published on this website soon.</span></div>
 </div>
 
+<div class="panel panel-danger">
+  <div class="panel-heading">blog about your epigraph</div>
+  <div class="panel-body">
+
+
+<p>If you have a blog, please consider writing an entry in your blog explaining why you chose that particular quote for your epigraph.</p>
+  </div>
+ <div class="panel-footer"><span class="glyphicon glyphicon-remove"></span> Not done, yet.</span></div>
+</div>
+
+<div class="panel panel-danger">
+  <div class="panel-heading">make the maint branch available in the APC</div>
+  <div class="panel-body">
+
+
+<p>Clone the new branch into /srv/gitcommon/branches on camel so the APC will receive its changes.</p>
+
+<pre>    $ git clone --branch maint-5.14 /gitroot/perl.git \
+    ?  /srv/gitcommon/branches/perl-5.14.x
+    $ chmod -R g=u /srv/gitcommon/branches/perl-5.14.x</pre>
+
+<p>And nag the sysadmins to make this directory available via rsync.</p>
+
+<p>XXX Who are the sysadmins? Contact info?</p>
+
+
+  </div>
+ <div class="panel-footer"><span class="glyphicon glyphicon-remove"></span> Not done, yet.</span></div>
+</div>
+
+<div class="panel panel-danger">
+  <div class="panel-heading">Relax!</div>
+  <div class="panel-body">
+
+
+<p><i>You MUST RETIRE to your preferred PUB, CAFE or SEASIDE VILLA for some much-needed rest and relaxation</i>.</p>
+
+<p>Thanks for releasing perl!</p>
+
+
+  </div>
+ <div class="panel-footer"><span class="glyphicon glyphicon-remove"></span> Not done, yet.</span></div>
+</div>
+
+v class="panel panel-danger">
+  <div class="panel-heading">update dev.perl.org</div>
+  <div class="panel-body">
+
+
+<p><i>You MUST SKIP this step for a RC release</i></p>
+
+<p>In your <code>perlweb</code> repository, link to the new release. For a new latest-maint release, edit <em>docs/shared/tpl/stats.html</em>. Otherwise, edit <em>docs/dev/perl5/index.html</em>.</p>
+
+<p>Then make a pull request to Leo Lapworth. If this fails for some reason and you cannot cajole anybody else into submitting that change, you can mail Leo as last resort.</p>
+
+<p>This repository can be found on <a href="https://github.com/perlorg/perlweb" class="podlinkurl"
+>github</a>.</p>
+
+
+  </div>
+ <div class="panel-footer"><span class="glyphicon glyphicon-remove"></span> Not done, yet.</span></div>
+</div>
 
 
           </div><!-- /.blog-post -->
